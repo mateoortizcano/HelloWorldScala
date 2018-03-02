@@ -44,12 +44,15 @@ a.sum / a.size*/
 
 
 trait MensajeError {val msg: String}
+trait estado
+trait cifrado extends estado
+trait plano extends estado
 
-case class Mensaje(texto: String, sha: Int)
+case class Mensaje[S <: estado](texto: String, sha: Int)
 
 object Mensaje{
-  def apply(texto: String, sha: Int): Either[MensajeError, Mensaje] = {
-    if(validarSha(sha)) Right(new Mensaje(texto,sha))
+  def apply(texto: String, sha: Int): Either[MensajeError, Mensaje[plano]] = {
+    if(validarSha(sha)) Right(new Mensaje[plano](texto,sha))
     else Left(new MensajeError {
       override val msg: String = "Bad sha"
     })

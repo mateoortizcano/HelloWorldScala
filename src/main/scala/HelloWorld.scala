@@ -8,11 +8,15 @@ object HelloWorld extends App{
       1
     y
   }
-
+  //HACIENDO USO DE FUNCIONES PARCIALES
   def calcularFactorial2(x: Int): Int = x match{
     case 0 => 1
     case _ => x * calcularFactorial2(x - 1)
   }
+
+  def fact0: Int => Int = {case 0 => 1}
+  def fact1: Int => Int = {case n => n * fact1(n-1)}
+  //def fact: Int => Int = fact0 orElse fact1
 
 
   //soluciona los problemas de stackOverFlow, pues los llamados no se apilan
@@ -38,7 +42,15 @@ object HelloWorld extends App{
   def funcion1[A,B](num1: A, num2: A, x: (A, A) => B) =
     println(s"La suma de los valores es ${x(num1, num2)}")
 
-  funcion1[Int, Int](-32, 3, suma(_,_))
+  funcion1[Int, Int](-32, 3, suma)
+  //FUNCIONES IMPLEMENTADAS PARCIALMENTE
+  val y : Int => Int = suma(3,_)
+  println(y(2))
+
+  //como definir una funcion de otra manera
+  def div : Int=> Int => Int = x => y => y ={
+
+  }
 
 //  println(calcularFactorial(10000000))
   def calcularMDC1(x :Int, y:Int): Int = {
@@ -57,13 +69,16 @@ object HelloWorld extends App{
 
 }
 
+// un producto es un conjunto de atributos que componen una clase
+//esto es un coproducto, es decir polimorfismo. una moneda puede ser dolar o euro o peso
 sealed trait Currency {val value: Double}
 case class US(value: Double) extends Currency
 case class EUR(value: Double) extends  Currency
 case class COP(value: Double) extends Currency
 
 object objeto1 {
-  def toCOP(c: Currency, trms: List[(Currency, Double)], f: Currency => Double => List[(Currency, Double)] => Double): Double = {
+  def toCOP(c: Currency, trms: List[(Currency, Double)],
+            f: Currency => Double => List[(Currency, Double)] => Double): Double = {
     c match {
       case usd@US(v) => f(usd) (v) (trms)
       case eur @ EUR(v) => f(eur) (v) (trms)
