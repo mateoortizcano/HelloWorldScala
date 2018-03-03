@@ -48,9 +48,7 @@ object HelloWorld extends App{
   println(y(2))
 
   //como definir una funcion de otra manera
-  def div : Int=> Int => Int = x => y => y ={
-
-  }
+  //def div : Int=> Int => Int = x => y => y ={}
 
 //  println(calcularFactorial(10000000))
   def calcularMDC1(x :Int, y:Int): Int = {
@@ -82,6 +80,7 @@ object objeto1 {
     c match {
       case usd@US(v) => f(usd) (v) (trms)
       case eur @ EUR(v) => f(eur) (v) (trms)
+      case cop @ COP(v) => f (cop) (v) (trms)
     }
   }
 
