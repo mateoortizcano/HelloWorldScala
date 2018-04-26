@@ -1,0 +1,8 @@
+:T factorial
+:t factorial
+:t factorial()
+def factorail
+def sayHello (): String = {     println("Hello, World")     "Hello, World!"   }
+:paste
+console
+compile

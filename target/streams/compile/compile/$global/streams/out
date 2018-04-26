@@ -1,0 +1,6 @@
+[0m[[0m[31merror[0m] [0m[0m/home/mateo/IdeaProjects/HelloWorldScala/src/main/scala/marzo24.scala:5:21: Cannot find an implicit ExecutionContext. You might pass[0m
+[0m[[0m[31merror[0m] [0m[0man (implicit ec: ExecutionContext) parameter to your method[0m
+[0m[[0m[31merror[0m] [0m[0mor import scala.concurrent.ExecutionContext.Implicits.global.[0m
+[0m[[0m[31merror[0m] [0m[0m  val event = Future(1)[0m
+[0m[[0m[31merror[0m] [0m[0m                    ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
