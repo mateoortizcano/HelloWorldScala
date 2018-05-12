@@ -1,21 +1,52 @@
-trait Functor[F[_]] {
-  def map[A, B](a: F[A])(f: A => B): F[B]
+import scala.util.{Success, Try}
+
+trait Monada[F[_]] {
+  def pure[A]: A => F[A]
+
+  def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
 }
 
-object Functor {
-  def apply[F[_]: Functor]: Functor[F] =
-    implicitly[Functor[F]]
 
+object MonadaOps {
+  implicit object MonadaOption extends Monada[Option] {
+    override def pure[A]: A => Option[A] = Option.apply
 
-  implicit def Tuple2Functor[A1]: Functor[({type f[x] = (A1, x)})#f] =
-    new Functor[({type f[x] = (A1, x)})#f] {
-      def map[A, B](a: (A1, A))(f: A => B): (A1, B) = (a._1, f(a._2))
+    override def flatMap[A, B](fa: Option[A])(f: A => Option[B]): Option[B] =
+      fa flatMap f
   }
 
-  implicit def Tuple2Functor2[A1]: Functor[({type f[x] = (x, A1)})#f] =
-    new Functor[({type f[x] = (x, A1)})#f] {
-      def map[A, B](a: (A, A1))(f: A => B): (B, A1) = (f(a._1),(a._2))
+  type either[A] = Either[String, A]
+
+  implicit  object  MonadaEither extends Monada[either] {
+    override def pure[A]: A => either[A] = Right.apply
+
+    override def flatMap[A, B](fa: either[A])(f: A => either[B]): either[B] =
+      fa flatMap f
+  }
+
+  implicit object MonadaTry extends Monada[Try] {
+    override def pure[A]: A => Try[A] = Success.apply
+
+    override def flatMap[A, B](fa: Try[A])(f: A => Try[B]): Try[B] = fa flatMap f
+  }
+
+
+  trait MonadLaws {
+    def f[A, F[_]]: A => F[A]
+    def g[A, F[_]]: A => F[A]
+
+    def leftIdentity[A, F[_]: Monada](x: A)(f: A => F[A])(m: Monada[F]): Boolean = {
+      m.flatMap(m.pure(x))(f) == f(x) == f(x)
     }
 
-}
+    def rightIdentity[A, F[_]: Monada](x: A)(m: Monada[F]): Boolean = {
+      m.flatMap(m.pure(x))(m.pure) == m.pure
+    }
 
+    def associativityIdentity[A, F[_]: Monada](x: A)(m: Monada[F])(f: A => F[A])(g: A => F[A]): Boolean =
+    {
+      val ap = m.pure(x)
+      m.flatMap(m.pure(ap))(a => m.flatMap(f(x))(g)) == m.flatMap(m.flatMap(ap)(f))(g)
+    }
+  }
+}

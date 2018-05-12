@@ -1,5 +1,4 @@
-import AnonimusFuntion._
-import org.scalatest.FunSuite
+/*import org.scalatest.FunSuite
 
 class Tests extends FunSuite {
   test("ExpresionRegular.evaluar"){
@@ -72,4 +71,4 @@ class Tests extends FunSuite {
     assert(fiveAdder(5) == 10)
   }
 }
-
+*/
