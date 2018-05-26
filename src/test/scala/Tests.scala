@@ -1,6 +1,6 @@
-/*import org.scalatest.FunSuite
+import org.scalatest.FunSuite
 
-class Tests extends FunSuite {
+  /*
   test("ExpresionRegular.evaluar"){
     assert(ExpresionRegular.evaluar("Mateo Ortiz") == Some("Mateo Ortiz"))
     assert(ExpresionRegular.evaluar("2Mateo Ortiz") == None)

@@ -6,3 +6,12 @@ def sayHello (): String = {     println("Hello, World")     "Hello, World!"   }
 :paste
 console
 compile
+update
+compile
+reload
+compile
+reload
+compile
+reload
+update
+compile
